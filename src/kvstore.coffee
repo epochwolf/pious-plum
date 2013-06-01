@@ -2,16 +2,19 @@ fs = require 'fs'
 path = require 'path'
 
 class KVStore
-  constructor: (@filename)->
-    @store = require(@filename)
+  # TODO check that the file exists.
+  constructor: (filename)->
+    @filename = path.join(process.cwd(), filename)
+    @store = if fs.existsSync @filename then require @filename else {}
 
   get: (key)-> 
-    console.log "KV #{key}"
     @store[key] 
 
   set: (key, value)-> 
-    console.log "KV #{key} = #{value}"
-    @store[key] = value
+    if value == null
+      delete @store[key]
+    else
+      @store[key] = value
     @flush()
 
   flush: ->
