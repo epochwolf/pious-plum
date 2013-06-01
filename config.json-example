@@ -1,5 +1,6 @@
 {
   "channels": ["##wolfden"],
   "server": "irc.freenode.net",
-  "nick": "piousplum"
+  "nick": "piousplum",
+  "trigger": "\\"
 }
