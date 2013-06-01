@@ -1,0 +1,32 @@
+{
+  "name": "pious-plum",
+  "version": "0.0.1",
+  "description": "Node.js IRC bot",
+  "homepage": "https://github.com/epochwolf/pious-plum",
+  "keywords": [
+    "irc",
+    "chat",
+    "bot",
+    "purple"
+  ],
+  "licenses": [{
+    "type": "BSD",
+    "url": "https://raw.github.com/epochwolf/pious-plum/master/LICENSE"
+  }],
+  "author": "epochwolf <me@epochwolf.com> (http://epochwolf.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/epochwolf/pious-plum.git"
+  },
+  "files": [
+    "./plum.js",
+    "./lib"
+  ],
+  "main": "./plum.js",
+  "dependencies": {
+    "irc": ">=0.3.6"
+  },
+  "scripts": {"start": "node plum.js"}
+  "engines": {"node": "~ 0.10.9"},
+  "os" : [ "darwin", "linux" ]
+}
