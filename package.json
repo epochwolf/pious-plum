@@ -19,14 +19,16 @@
     "url": "https://github.com/epochwolf/pious-plum.git"
   },
   "files": [
-    "./plum.js",
     "./lib"
   ],
-  "main": "./plum.js",
+  "main": "./lib/plum.js",
   "dependencies": {
     "irc": ">=0.3.6"
   },
-  "scripts": {"start": "node plum.js"},
+  "devDependencies":{
+    "coffee-script": "*"
+  },
+  "scripts": {"start": "node ./lib/plum.js"},
   "engines": {"node": "~ 0.10.9"},
   "os" : [ "darwin", "linux" ]
 }
