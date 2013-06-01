@@ -26,7 +26,7 @@
   "dependencies": {
     "irc": ">=0.3.6"
   },
-  "scripts": {"start": "node plum.js"}
+  "scripts": {"start": "node plum.js"},
   "engines": {"node": "~ 0.10.9"},
   "os" : [ "darwin", "linux" ]
 }
