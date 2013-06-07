@@ -49,6 +49,10 @@ class PluginManager
   getAllLoadedNames: () ->
     Object.keys((name for name, plugin of plugins when plugin.__loaded))
 
+  __unloadAll: ->
+    for name in @getAllLoadedNames()
+      @unload(name)
+
   __scan: ->
     files = fs.readdirSync(path.join(__dirname, 'plugins'))
     for file in files

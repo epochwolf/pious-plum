@@ -8,6 +8,7 @@ util = require 'util'
 irc = require "irc"
 config = require '../config'
 package_info = require '../package'
+UrlDetector = require './url_detector'
 PluginManager = require('./plugins')
 
 bot = new irc.Client config.server, config.nick, 
@@ -15,6 +16,7 @@ bot = new irc.Client config.server, config.nick,
   password: config.password
   userName: config.username
   realName: config.realname
+  debug:    true
 
 bot.commandList = {}
 
@@ -25,10 +27,14 @@ bot.addListener "message", (who, channel, message) ->
     args = message.split(" ")
     command = args.shift().substr(config.trigger.length)
     bot.emit "command", channel, who, command, args
+    # FIXME: use the event listener to determine if there's a command registered.
     if bot.commandList[command]
-      bot.emit "command:#{command}", channel, who, args
+      bot.emit "command_#{command}", channel, who, args
     else
       bot.emit "missing_command", channel, who, command, args
+  else if url = UrlDetector.has_url(message)
+    if not bot.emit "message_with_url:#{url.host}", channel, who, message, url
+      bot.emit "message_with_url", channel, who, message, url
 
 bot.addMissingCommandHandler = (callback) -> 
   return false if @missingCommandHanlder
@@ -45,7 +51,7 @@ bot.removeMissingCommandHandler = () ->
 bot.addCommand = (command, callback)-> # callback = (channel, who, args)
   return false if @commandList[command]
   @commandList[command] = callback
-  @addListener("command:#{command}", callback)
+  @addListener("command_#{command}", callback)
   return true
 
 bot.removeCommand = (command) -> 
@@ -54,6 +60,9 @@ bot.removeCommand = (command) ->
   delete @commandList[command]
   return true
 
-bot.plugins = new PluginManager bot, config
+bot.reloadPlugins = (command) -> 
+  bot.plugins.__unloadAll() if bot.plugins
+  bot.plugins = new PluginManager bot, config
 
+bot.reloadPlugins()
 

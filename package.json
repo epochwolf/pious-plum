@@ -23,7 +23,8 @@
   ],
   "main": "./lib/plum.js",
   "dependencies": {
-    "irc": ">=0.3.6"
+    "irc": ">=0.3.6",
+    "node-github": "*"
   },
   "devDependencies":{
     "coffee-script": "*"

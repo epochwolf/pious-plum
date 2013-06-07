@@ -60,10 +60,15 @@ class Plugin
             @bot.say channel, "Plugin \"#{name}\" unloaded."
           when "info" 
             @bot.say channel, "#{name} provides: #{Object.keys(plugin.__commands).join(", ")} and listens to: #{Object.keys(plugin.__listeners).join(", ")}"
+          when "reload"
+            @bot.say channel, "Okay."
+            @bot.reloadPlugins()
+            @bot.say channel, "Done."
           else
             @bot.say channel, "Available sub commands: load [plugin], unload [plugin], info [plugin], list"
       else
         @bot.say channel, "No plugin named \"#{name}\""
+
 
 module.exports = Plugin
 
