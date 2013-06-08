@@ -1,5 +1,6 @@
 fs = require 'fs'
 path = require 'path'
+util = require 'util'
 
 class PluginManager
   constructor: (@bot, @config) -> 
@@ -8,6 +9,7 @@ class PluginManager
 
   load: (name) ->
     if plugin = @plugins[name]
+      console.log "Load Plugin: #{name}"
       if plugin.setup
         plugin.setup() 
       if plugin.__missingCommandHandler
@@ -20,12 +22,14 @@ class PluginManager
       plugin.__loaded = true
       return true
     else
+      console.log "Load Plugin: #{name} (error, no plugin by this name)"
       return false
 
 
-  unload: (name) ->
+  unload: (name, force=true) ->
     if plugin = @plugins[name]
-      return false if plugin.__prevent_unload
+      console.log "Unload Plugin: #{name}"
+      return false if !force && plugin.__prevent_unload
       if plugin.teardown
         plugin.teardown() 
       if @bot.missingCommandHandler == plugin.__missingCommandHandler
@@ -34,10 +38,11 @@ class PluginManager
         for callback in callbacks
           @bot.removeListener event, callback
       for command, callback of plugin.__commands
-        @bot.removeCommand command, callback
+        @bot.removeCommand command
       plugin.__loaded = false
       return true
     else
+      console.log "Unload Plugin: #{name} (error, no plugin by this name)"
       return false
 
   get: (name) ->
@@ -47,11 +52,12 @@ class PluginManager
     Object.keys @plugins
 
   getAllLoadedNames: () ->
-    Object.keys((name for name, plugin of plugins when plugin.__loaded))
+    Object.keys((name for name, plugin of @plugins when plugin.__loaded))
 
   __unloadAll: ->
-    for name in @getAllLoadedNames()
-      @unload(name)
+    console.log "Unloading all plugins"
+    for name, plugin of @plugins
+      @unload(name, true) if plugin.__loaded
 
   __scan: ->
     files = fs.readdirSync(path.join(__dirname, 'plugins'))

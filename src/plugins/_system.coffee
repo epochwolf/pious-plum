@@ -21,7 +21,7 @@ class Plugin
     console.log "error: #{util.inspect message}"
 
   aboutCmd: (channel, who, args) => 
-    @bot.say channel, "I am a Pious Purple IRC Bot #{package_info.version} written in Node.JS https://github.com/epochwolf/pious-purple"
+    @bot.say channel, "I am a Pious Purple IRC Bot #{@config.version} written in Node.JS https://github.com/epochwolf/pious-plum"
 
   joinCmd: (channel, who, args) => 
     return @bot.say channel, "Nope." if who != le_admin
@@ -60,10 +60,6 @@ class Plugin
             @bot.say channel, "Plugin \"#{name}\" unloaded."
           when "info" 
             @bot.say channel, "#{name} provides: #{Object.keys(plugin.__commands).join(", ")} and listens to: #{Object.keys(plugin.__listeners).join(", ")}"
-          when "reload"
-            @bot.say channel, "Okay."
-            @bot.reloadPlugins()
-            @bot.say channel, "Done."
           else
             @bot.say channel, "Available sub commands: load [plugin], unload [plugin], info [plugin], list"
       else

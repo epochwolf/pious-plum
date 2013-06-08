@@ -8,5 +8,11 @@
   "github_auth": {
     "type": "oauth",
     "token": "e5a4a27487c26e571892846366de023349321a73"
+  },
+  "twitter_auth": {
+    "consumer_key": "",
+    "consumer_secret": "",
+    "access_token_key": "",
+    "access_token_secret": ""
   }
 }

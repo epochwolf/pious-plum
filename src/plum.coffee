@@ -9,7 +9,7 @@ irc = require "irc"
 config = require '../config'
 package_info = require '../package'
 UrlDetector = require './url_detector'
-PluginManager = require('./plugins')
+PluginManager = require './plugins'
 
 bot = new irc.Client config.server, config.nick, 
   channels: config.channels
@@ -56,13 +56,22 @@ bot.addCommand = (command, callback)-> # callback = (channel, who, args)
 
 bot.removeCommand = (command) -> 
   return false if not @commandList[command]
-  @removeListener(command, @commandList[command])
+  @removeListener("command_#{command}", @commandList[command])
   delete @commandList[command]
   return true
 
 bot.reloadPlugins = (command) -> 
-  bot.plugins.__unloadAll() if bot.plugins
-  bot.plugins = new PluginManager bot, config
+  @plugins.__unloadAll() if @plugins
+  @plugins = new PluginManager bot, config
 
-bot.reloadPlugins()
+bot.start = ()->
+  @addCommand "reload-plugins", (channel, who, args) =>
+    if who == "epochwolf"
+      @say channel, "Okay."
+      @reloadPlugins()
+      @say channel, "Done."
+    else
+      @say channel, "Nope."
+  @reloadPlugins()
 
+bot.start()

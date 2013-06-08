@@ -10,7 +10,7 @@
 #   input: ' http://github.com/benprew/pony?2 ' ]
 
 
-url_regex = /(https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*)?(\?\S+)?)?/
+url_regex = /(https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\-\.]*)?(\?\S+)?)?/
 
 UrlDetector = 
   has_url: (string)->

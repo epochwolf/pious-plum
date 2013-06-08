@@ -24,7 +24,9 @@
   "main": "./lib/plum.js",
   "dependencies": {
     "irc": ">=0.3.6",
-    "node-github": "*"
+    "node-github": "~0.0.3",
+    "ntwitter": "~0.5.0",
+    "dateformat": "*"
   },
   "devDependencies":{
     "coffee-script": "*"
