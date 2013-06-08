@@ -60,18 +60,14 @@ bot.removeCommand = (command) ->
   delete @commandList[command]
   return true
 
-bot.reloadPlugins = (command) -> 
-  @plugins.__unloadAll() if @plugins
-  @plugins = new PluginManager bot, config
-
 bot.start = ()->
   @addCommand "reload-plugins", (channel, who, args) =>
     if who == "epochwolf"
       @say channel, "Okay."
-      @reloadPlugins()
+      @plugins.__rescan()
       @say channel, "Done."
     else
       @say channel, "Nope."
-  @reloadPlugins()
+  @plugins = new PluginManager bot, config
 
 bot.start()

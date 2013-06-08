@@ -3,14 +3,23 @@ class Plugin
     @__name = "tips"
     @__author = "epochwolf"
     @__version = "v0.0.1"
+    @__listeners = {}
     @__commands = 
       add: @add
       remove: @remove
+      showtip: @showTip
     @__missingCommandHandler = @missingCommand
     @__autoload = true
 
   setup: () =>
     @tips = new(require('../kvstore'))("data/tips.json")
+
+  showTip: (channel, who, args) =>
+    command = args[0]
+    if msg = @tips.get command
+      @bot.say channel, "Tip: #{msg}"
+    else
+      @bot.say channel, "No tip by that name."
 
   add: (channel, who, args) => 
     if tip = args.shift()
@@ -24,6 +33,13 @@ class Plugin
 
   missingCommand: (channel, who, command, args) =>  
     if msg = @tips.get command
-      @bot.say channel, msg
+      msg = msg.replace("{nick}", who).replace("{channel}", channel).replace("{args}", args.join(" "))
+      for arg, index in args
+        msg = msg.replace "{arg#{index+1}}", arg
+      if msg.match(/^\/me /)
+        msg = msg.replace(/^\/me /, "")
+        @bot.action channel, msg
+      else
+        @bot.say channel, msg
 
 module.exports = Plugin

@@ -54,19 +54,22 @@ class PluginManager
   getAllLoadedNames: () ->
     Object.keys((name for name, plugin of @plugins when plugin.__loaded))
 
-  __unloadAll: ->
-    console.log "Unloading all plugins"
+  __rescan: ->
     for name, plugin of @plugins
       @unload(name, true) if plugin.__loaded
-
+      delete require.cache[plugin.__required_as]
+    @plugins = {}
+    @__scan()
+    
   __scan: ->
     files = fs.readdirSync(path.join(__dirname, 'plugins'))
     for file in files
-      plugin = new(require("./plugins/#{file}"))(@bot, @config)
-      pluginName = plugin.__name
-      @plugins[pluginName] = plugin
+      require_file = fs.realpathSync path.join(__dirname, 'plugins', file)
+      plugin = new(require(require_file))(@bot, @config)
+      @plugins[plugin.__name] = plugin
+      plugin.__filename = file
+      plugin.__required_as = require_file
       plugin.__loaded = false
-      if plugin.__autoload
-        @load pluginName
+      @load plugin.__name if plugin.__autoload
 
 module.exports = PluginManager
