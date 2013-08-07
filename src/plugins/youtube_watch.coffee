@@ -57,7 +57,7 @@ class Plugin
         if hours
           video_length = hours + ":" + video_length
 
-        @bot.say channel, "YouTube | #{title} | #{video_length} seconds"
+        @bot.say channel, "YouTube | #{title} | #{video_length}"
 
 
 module.exports = Plugin
