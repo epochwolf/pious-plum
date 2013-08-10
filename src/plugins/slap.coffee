@@ -238,7 +238,7 @@ Plugin::things = [
   "{adjective} pot",
   "{adjective} trophy",
   "{adjective} goblet",
-  "yellow snow"
+  "lemon snowcone"
 ]
 
 Plugin::animals = [
@@ -281,7 +281,6 @@ Plugin::slaps = [
   "abuses {thing} to slap {nick}",
   "beautifies {nick} with some {thing2} imprints",
   "whacks {nick} a bit with {thing}",
-  "bangs {nick} with {thing}",
   "spanks {nick} with {thing}",
   "strikes {nick} with {thing}",
   "clouts {nick} with {thing}",
@@ -320,11 +319,11 @@ Plugin::slaps = [
   "shreds {nick} with {adjective} chainsaw",
   "pushes {nick} into an abyss",
   "beautifies {nick} with some knuckle duster imprints",
-  "feeds {nick} a bowl of yellow snow"
+  "feeds {nick} a lemon snowcone"
 ]
 
 Plugin::slapDetectors = [
-  /^slaps .*? around with/,
+  /^slaps .*? around/,
   /^throws .*? at/,
   /^considers highlighting .*? with/,
   /^jabs .*? with/,
