@@ -18,6 +18,8 @@ The primary purpose of the bot is to retrieve information when a url is mentione
 * youtube.com/youtu.be
   * Displays video title and length
 
+To prevent the bot from being accidentally triggered it only reads very specific full urls that include the scheme (http/https).
+
 Examples
 --------
 
