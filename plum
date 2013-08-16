@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
 // Force working folder to be this folder.
 process.chdir(__dirname);

@@ -15,6 +15,7 @@ class Plugin
     @__commands = 
       gh: @linkToGithub
     @__autoload = true
+    @rate_limiter = new(require('../rate_limiter'))(10 * 60)
 
   # Create new connection each time since there seems to be a caching issue inside node-github
   conn: () ->
@@ -27,7 +28,6 @@ class Plugin
 
   teardown:() =>
     console.log "github_watch plugin unloaded"
-
 
   githubDetails: (channel, who, message, url) =>
     {path} = url
@@ -59,6 +59,10 @@ class Plugin
 
     else if match = path.match repo_url
       [_, user, repo] = match
+
+      unless @rate_limiter.okay "#{user}/#{repo}"
+        return
+
       @conn().repos.get {user: user, repo:repo}, (err, data)=>
         if err
           @bot.say channel, "#{prefix} Error: #{err}"
