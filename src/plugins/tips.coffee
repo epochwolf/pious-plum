@@ -7,7 +7,7 @@ class Plugin
     @__commands = 
       add: @add
       remove: @remove
-      showtip: @showTip
+      show: @showTip
     @__missingCommandHandler = @missingCommand
     @__autoload = true
 
