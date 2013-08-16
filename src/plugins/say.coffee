@@ -15,9 +15,17 @@ class Plugin
 
   sayCmd: (channel, who, args) => 
     say_channel = args.shift()
+    say_channel = channel if say_channel == "."
+
+    me_command = args.shift()
+    me = me_command == "/me"
+    args.unshift me_command unless me
+    
     message = args.join(" ")
-    if say_channel == "."
-      say_channel = channel
-    @bot.say say_channel, message 
+
+    if me
+      @bot.action say_channel, message
+    else
+      @bot.say say_channel, message 
 
 module.exports = Plugin
