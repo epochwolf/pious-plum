@@ -10,7 +10,7 @@ But what does it do?
 The primary purpose of the bot is to retrieve information when a url is mentioned in a channel. Right now the bot supports github, twitter, and youtube. 
 
 * github.com
-  * Repository Information
+  * Repository Information (Rate limited to once per 10 minutes for a repository)
   * Commit Information
   * Issue Information
 * twitter.com
