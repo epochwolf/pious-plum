@@ -19,6 +19,10 @@ class PluginManager
           @bot.addListener event, callback
       for command, callback of plugin.__commands
         @bot.addCommand command, callback
+      for command, callback of plugin.__admin_commands
+        @bot.addCommand command, (channel, who, args) =>
+          return @bot.say channel, "Nope." unless who in @config.bot_admins
+          callback(channel, who, args)
       plugin.__loaded = true
       return true
     else

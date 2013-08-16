@@ -10,6 +10,7 @@ class Plugin
       error: [@error_handler]
     @__commands = 
       about: @aboutCmd
+    @__admin_commands = 
       join: @joinCmd
       part: @partCmd
       quit: @quitCmd
@@ -24,7 +25,6 @@ class Plugin
     @bot.say channel, "I am a Pious Purple IRC Bot #{@config.version} written in Node.JS https://github.com/epochwolf/pious-plum"
 
   joinCmd: (channel, who, args) => 
-    return @bot.say channel, "Nope." if who != le_admin
     if args[0]
       @bot.say channel, "Okay."
       @bot.join args[0]
@@ -32,18 +32,15 @@ class Plugin
       @bot.action channel, "yawns"
 
   partCmd: (channel, who, args) => 
-    return @bot.say channel, "Nope." if who != le_admin
     @bot.say channel, "Okay."
     @bot.part(args[0] || channel)
 
   quitCmd: (channel, who, args) => 
-    return @bot.say channel, "Nope." if who != le_admin
     @bot.say channel, "Okay."
     @bot.disconnect("#{who} asked me to quit", process.exit)
       
 
   pluginCmd: (channel, who, args) =>
-    return @bot.say channel, "Nope." if who != le_admin
     [subcmd, name] = args
     if subcmd == "list"
       plugins = ((if plugin.__loaded then name else "#{name} (not loaded)") for name, plugin of @bot.plugins.plugins)

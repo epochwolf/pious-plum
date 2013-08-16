@@ -5,6 +5,7 @@
   "username": "piousplum",
   "realname": "Pious Plum v0.0.1",
   "trigger": "!",
+  "bot_admins": ["epochwolf"],
   "github_auth": {
     "type": "oauth",
     "token": "e5a4a27487c26e571892846366de023349321a73"
