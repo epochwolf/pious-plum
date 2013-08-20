@@ -22,7 +22,7 @@ class Plugin
     console.log "error: #{util.inspect message}"
 
   aboutCmd: (channel, who, args) => 
-    @bot.say channel, "I am a Pious Purple IRC Bot #{@config.version} written in Node.JS https://github.com/epochwolf/pious-plum"
+    @bot.say channel, "I am a Pious Plum IRC Bot #{@config.version} written in Node.JS https://github.com/epochwolf/pious-plum"
 
   joinCmd: (channel, who, args) => 
     if args[0]
