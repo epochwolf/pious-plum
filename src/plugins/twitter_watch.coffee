@@ -38,6 +38,7 @@ class Plugin
           {text, user, favorite_count, retweet_count, created_at} = data
           date = new Date created_at
           date = dateFormat date, "h:MM - d mmm yy"
+          text = text.replace /[\n\r]/mg, " "
 
           # Twitter | Randy Luecke (@me1000) at 10:52 AM - 8 Jun 13: My #wwdctip: bring a schwag bag. People will be handing out clothes, stickers, and other goodies. I may even have some BugHub stickers ;)
           @bot.say channel, "Twitter | #{user.name} (@#{user.screen_name}) at #{date}: #{text} "
