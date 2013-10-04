@@ -55,6 +55,8 @@ class Plugin
           file_count = data.files.length
           {message} = data.commit
           {total, additions, deletions} = data.stats
+          message = message.replace /[\n\r]/mg, " "
+
           @bot.say channel, "#{prefix} #{author} (#{file_count} files: +#{additions} -#{deletions}) : #{message}"
 
     else if match = path.match repo_url
@@ -70,6 +72,8 @@ class Plugin
           {name, full_name, description, open_issues, homepage, has_issues, has_wiki} = data
           forks = data.forks_count
           stars = data.watchers_count
+          description = description.replace /[\n\r]/mg, " "
+
           @bot.say channel, "#{prefix} #{full_name} (#{stars}★ #{forks}♆ #{open_issues}☤) : #{description}"
 
   linkToGithub: (channel, who, args) => 
@@ -81,6 +85,8 @@ class Plugin
         {name, full_name, description, open_issues, homepage, has_issues, has_wiki} = data
         forks = data.forks_count
         stars = data.watchers_count
+        description = description.replace /[\n\r]/mg, " "
+
         @bot.say channel, "#{prefix} https://github.com/#{user}/#{repo} (#{stars}★ #{forks}♆ #{open_issues}☤) : #{description}"
 
 module.exports = Plugin
