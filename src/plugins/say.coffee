@@ -3,7 +3,8 @@ class Plugin
     @__name = "say"
     @__author = "epochwolf"
     @__version = "v0.0.1"
-    @__commands = 
+    @__commands = {}
+    @__admin_commands = 
       say: @sayCmd
     @__autoload = true
 
