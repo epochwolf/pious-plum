@@ -1,5 +1,4 @@
 
-
 class RateLimiter
   constructor: (@expiry=10*60)->
     @data = {}
@@ -19,7 +18,7 @@ class RateLimiter
   clearExpiredKeys: (check_time)=>
     for key, time of @data
       if time < check_time
-        console.log "removing #{key} since #{time} < #{check_time}"
-        #delete @data[key] 
+        #console.log "removing #{key} since #{time} < #{check_time}"
+        delete @data[key] 
 
 module.exports = RateLimiter
