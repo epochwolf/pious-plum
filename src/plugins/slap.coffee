@@ -36,7 +36,7 @@ class Plugin
     slap = slap.replace "{nick}", target
     slap = slap.replace "{thing}", thing
     slap = slap.replace "{thing2}", thing2
-    slap = slap.replace "{animals}", randItem @animals
+    slap = slap.replace "{animal}", randItem @animals
     slap = slap.replace "{adjective}", randItem @adjectives
     slap
 
