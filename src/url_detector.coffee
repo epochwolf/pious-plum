@@ -18,7 +18,7 @@ UrlDetector =
       url:      match[0]
       protocol: match[1]
       host:     match[2]
-      port:     match[3] || "80"
+      port:     match[3] || (if match[1] == "https" then "443" else "80" ) 
       path:     "/#{match[5]}"
       query:    match[6]
     else
