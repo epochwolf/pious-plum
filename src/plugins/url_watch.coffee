@@ -58,6 +58,7 @@ class Plugin
       console.log res.headers
       location = res.headers["location"]
       content_type = res.headers['content-type']
+      content_type = "#{content_type}".replace(/;.*/, "")
       length = res.headers['content-length']
       data = ""
 
@@ -65,21 +66,23 @@ class Plugin
         display_status = STATUS_CODES["#{status_code}"] || status_code
         title = if "#{content_type}".match ACCEPTABLE_MIMES then "#{data}".match(TITLE_REGEX)
 
-        if location
-          @bot.say channel, "Url | #{display_status} (#{content_type}) | #{location}"
-          # Disable reading through to the redirect to avoid infinite loops and spamming the channel
-          # if new_url = UrlDetector.has_url(location)
-          #   @bot.emit "message_with_url", channel, who, message, new_url
+        title_text = if location
+          location
         else if title && title[1]
-          @bot.say channel, "Url | #{display_status} (#{content_type}) | #{"#{title[1]}".replace(/&amp;/, "&")}"
+          "#{title[1]}".replace(/&amp;/, "&")
         else if length
-          @bot.say channel, "Url | #{display_status} (#{content_type}) | #{bytesToSize length}"
+          "#{bytesToSize length} #{content_type}"
         else
-          @bot.say channel, "Url | #{display_status} (#{content_type}) | unknown size"
+          "?? KB #{content_type}"
+
+        if "#{status_code}" != "200" 
+          title_text += " (#{display_status})"
+
+        @bot.say channel, "Web | #{title_text}"
 
       res.on 'data', (d) => 
         data += d
-        if data.length > 400000 # We don't want to read all 4.7 gb of an iso if someone is being a dick.
+        if data.length > 40000 # We don't want to read all 4.7 gb of an iso if someone is being a dick.
           res.socket.end()
 
     request.end()
