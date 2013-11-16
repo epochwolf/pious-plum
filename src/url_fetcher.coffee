@@ -14,12 +14,15 @@ class UrlFetcher
     http.request(@get_real_url(), func)
 
   get_real_url: => 
-    @url
+    @url.url
 
   get_library: =>
+    console.log @url
     if @url.protocol == "https"
+      console.log 'https'
       require('https')
     else
+      console.log 'http'
       require('http')
 
 module.exports = UrlFetcher
