@@ -15,7 +15,7 @@ class Plugin
     @__commands = 
       gh: @linkToGithub
     @__autoload = true
-    @rate_limiter = new(require('../rate_limiter'))(10 * 60)
+    @rate_limiter = new(require('../rate_limiter'))(10 * 60) # 10 minutes
 
   # Create new connection each time since there seems to be a caching issue inside node-github
   conn: () ->
