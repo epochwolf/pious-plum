@@ -20,9 +20,9 @@ class UrlFetcher
     console.log @url
     if @url.protocol == "https"
       console.log 'https'
-      require('https')
+      require('follow-redirects').https
     else
       console.log 'http'
-      require('http')
+      require('follow-redirects').http
 
 module.exports = UrlFetcher
