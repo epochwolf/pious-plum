@@ -56,7 +56,8 @@ class Plugin
     request = new(UrlFetcher)(url).handle (res)=>
       status_code = res.statusCode
       console.log res.headers
-      location = res.headers["location"]
+      location = res.headers["location"] 
+      new_location = res.req._headers.host + res.req.path
       content_type = res.headers['content-type']
       content_type = "#{content_type}".replace(/;.*/, "")
       length = res.headers['content-length']
@@ -75,8 +76,12 @@ class Plugin
         else
           "?? KB #{content_type}"
 
+        if new_location 
+          title_text += " | #{new_location}"
+
         if "#{status_code}" != "200" 
           title_text += " (#{display_status})"
+
 
         @bot.say channel, "Web | #{title_text}"
 
