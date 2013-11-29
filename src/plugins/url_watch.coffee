@@ -44,7 +44,7 @@ class Plugin
       length = res.headers['content-length']
       data = ""
 
-      new_url = if "#{url.host}#{url.path}#{url.query}" != "#{res.req._headers.host}#{res.req.path}" 
+      new_url = if "#{url.host}#{url.path}#{url.query || ""}" != "#{res.req._headers.host}#{res.req.path}" 
         # There's no way to get the new url's actual protocol without rewriting the follow-redirects module. 
         "#{res.req._headers.host}#{res.req.path}"
 
