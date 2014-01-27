@@ -10,7 +10,7 @@
 #   input: ' http://github.com/benprew/pony?2 ' ]
 
 
-url_regex = /(https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\-\.]*)?(\?\S+)?)?/
+url_regex = /(https?):\/\/(?:www\.)?([-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})(?:\:(\d{2,6}))?\b([-a-zA-Z0-9@:%_\+.~#&\/\/=]*)\??([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/
 
 UrlDetector = 
   has_url: (string)->
@@ -19,8 +19,8 @@ UrlDetector =
       protocol: match[1]
       host:     match[2]
       port:     match[3] || (if match[1] == "https" then "443" else "80" ) 
-      path:     "/#{match[5]}"
-      query:    match[6]
+      path:     match[4]
+      query:    match[5]
     else
       false
 
