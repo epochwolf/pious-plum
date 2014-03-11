@@ -1,28 +1,17 @@
-# > m = " http://github.com/benprew/pony?2 ".match(/(https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*)?(\?\S+)?)?/);
-# [ 'http://github.com/benprew/pony?2',
-#   'http',
-#   'github.com',
-#   undefined,
-#   '/benprew/pony?2',
-#   'benprew/pony',
-#   '?2',
-#   index: 1,
-#   input: ' http://github.com/benprew/pony?2 ' ]
+URL = require 'url'
+url_regex = /https?:\/\/[^\s]+/
 
+rewrite_url = (url) ->
+  url: url.href
+  protocol: url.protocol.replace(':', '')
+  host: url.hostname
+  port: url.port or (url.protocol is 'http:' and "80" or "443")
+  path: url.pathname
+  query: url.search
 
-url_regex = /(https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\-\.]*)?(\?\S+)?)?/
-
-UrlDetector = 
-  has_url: (string)->
-    if match = string.match(url_regex)
-      url:      match[0]
-      protocol: match[1]
-      host:     match[2]
-      port:     match[3] || (if match[1] == "https" then "443" else "80" ) 
-      path:     "/#{match[5]}"
-      query:    match[6]
-    else
-      false
-
+UrlDetector =
+  has_url: (string) ->
+    match = string.match url_regex
+    match && rewrite_url(url.parse(match[0])) || false
 
 module.exports = UrlDetector
