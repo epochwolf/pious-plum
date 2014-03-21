@@ -20,6 +20,11 @@ bot = new irc.Client config.server, config.nick,
 
 bot.commandList = {}
 
+# Optional error handler
+if config.crash_on_error
+  console.log("ERROR HANDLING OFF, ALL ERROR EVENTS WILL RESULT IN CRASH")
+  bot.addListener 'error', ->(msg) console.log('error: ', msg)
+
 # Command Processor
 bot.addListener "message", (who, channel, message) ->
   console.log "#{who} => #{channel}: #{message}" 
