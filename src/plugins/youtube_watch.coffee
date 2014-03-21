@@ -1,4 +1,3 @@
-TwitterApi = require "ntwitter"
 dateFormat = require('dateformat');
 
 class Plugin 
@@ -24,9 +23,9 @@ class Plugin
     console.log "youtube_watch plugin unloaded"
 
   videoDetailsLong: (channel, who, message, url) =>
-    {path, query} = url
+    {path} = url
     # https://www.youtube.com/watch?v=HU2ftCitvyQ
-    if path.match(/^\/watch/) && (match = query.match /v=([A-Za-z0-9_-]+)/)
+    if match = path.match(/^\/watch.*?v=([A-Za-z0-9_-]+)/)
       [_, video_id] = match
       console.log video_id
       @videoDetails channel, who, message, video_id
@@ -34,7 +33,7 @@ class Plugin
   videoDetailsShort: (channel, who, message, url) =>
     {path} = url
     # http://youtu.be/HU2ftCitvyQ
-    if match = path.match /\/?([A-Za-z0-9_-]+)/
+    if match = path.match /^\/?([A-Za-z0-9_-]+)/
       [_, video_id] = match
       @videoDetails channel, who, message, video_id
 
