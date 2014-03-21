@@ -15,6 +15,13 @@ bytesToSize = (bytes) ->
   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[[i]]
 
 
+# There's no way to get the new url's actual protocol without rewriting the follow-redirects module. 
+# This function attempts to detect if a redirect happened.
+is_redirect = (res, url) ->
+  possible_new_url = "#{res.req._headers.host}#{res.req.path}"
+  if "#{url.host}#{url.path}" !=  possible_new_url
+    possible_new_url
+
 class Plugin 
   constructor: (@bot, @config) -> 
     @__name = "url_watch"
@@ -33,8 +40,9 @@ class Plugin
     console.log "url_watch plugin unloaded"
 
   urlDetails: (channel, who, message, url) =>
+    console.log "I see: #{url.href}"
 
-    unless @rate_limiter.okay url.url
+    unless @rate_limiter.okay "#{url.host}#{url.path}"
       return
 
     request = new(UrlFetcher)(url).handle (res)=>
@@ -44,13 +52,10 @@ class Plugin
       length = res.headers['content-length']
       data = ""
 
-      new_url = if "#{url.host}#{url.path}#{url.query || ""}" != "#{res.req._headers.host}#{res.req.path}" 
-        # There's no way to get the new url's actual protocol without rewriting the follow-redirects module. 
-        "#{res.req._headers.host}#{res.req.path}"
-
       # If bot has a handler for the new host, delegate. 
-      if new_url
-        @bot.emit("message_with_url:#{res.req._headers.host}", channel, who, message, UrlDetector.has_url("http://#{new_url}"))
+      if new_url = is_redirect res, url
+        if redirect_url = UrlDetector.has_url("http://#{new_url}")
+          @bot.emit("message_with_url:#{redirect_url.hostname}", channel, who, message, redirect_url)
 
       res.on 'end', () =>
         display_status = STATUS_CODES["#{status_code}"] || status_code
