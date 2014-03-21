@@ -11,10 +11,7 @@ class UrlFetcher
 
   handle: (func) => 
     http = @get_library()
-    http.request(@get_real_url(), func)
-
-  get_real_url: => 
-    @url.url
+    http.request(@url, func)
 
   get_library: =>
     console.log @url

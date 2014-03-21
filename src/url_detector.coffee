@@ -4,7 +4,7 @@ url_regex = /https?:\/\/[^\s]+/
 # Attempt to parse a possible url, if it fails, return undefined.
 parse_url = (possible_url) ->
   try
-    url.parse(possible_url)
+    URL.parse(possible_url)
   catch e
     if not e instanceof ReferenceError
       throw e
