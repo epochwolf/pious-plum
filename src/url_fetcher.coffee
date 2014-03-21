@@ -15,7 +15,7 @@ class UrlFetcher
 
   get_library: =>
     console.log @url
-    if @url.protocol == "https"
+    if @url.protocol == "https:"
       console.log 'https'
       require('follow-redirects').https
     else
