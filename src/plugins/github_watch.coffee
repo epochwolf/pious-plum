@@ -55,7 +55,7 @@ class Plugin
           file_count = data.files.length
           {message} = data.commit
           {total, additions, deletions} = data.stats
-          message = message.replace /[\n\r]/mg, " "
+          message = (message or '').replace /[\n\r]/mg, " "
 
           @bot.say channel, "#{prefix} #{author} (#{file_count} files: +#{additions} -#{deletions}) : #{message}"
 
@@ -72,7 +72,7 @@ class Plugin
           {name, full_name, description, open_issues, homepage, has_issues, has_wiki} = data
           forks = data.forks_count
           stars = data.watchers_count
-          description = description.replace /[\n\r]/mg, " "
+          description = (description or '').replace /[\n\r]/mg, " "
 
           @bot.say channel, "#{prefix} #{full_name} (#{stars}★ #{forks}♆ #{open_issues}☤) : #{description}"
 
@@ -85,7 +85,7 @@ class Plugin
         {name, full_name, description, open_issues, homepage, has_issues, has_wiki} = data
         forks = data.forks_count
         stars = data.watchers_count
-        description = description.replace /[\n\r]/mg, " "
+        description = (description or '').replace /[\n\r]/mg, " "
 
         @bot.say channel, "#{prefix} https://github.com/#{user}/#{repo} (#{stars}★ #{forks}♆ #{open_issues}☤) : #{description}"
 
