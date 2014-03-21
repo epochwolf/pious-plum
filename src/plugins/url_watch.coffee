@@ -1,5 +1,6 @@
 UrlFetcher = require '../url_fetcher'
 UrlDetector = require '../url_detector'
+entities = new(require('html-entities').XmlEntities)
 
 ACCEPTABLE_MIMES = /(text|html|xml)/
 TITLE_REGEX = /<title>(.*?)<\/title>/
@@ -67,6 +68,8 @@ class Plugin
           "#{bytesToSize length} #{content_type}"
         else
           "?? KB #{content_type}"
+
+        title_text = entities.decode title_text
 
         if new_url 
           title_text += " | #{new_url}"
