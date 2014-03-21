@@ -25,9 +25,9 @@ class Plugin
     console.log "twitter_watch plugin unloaded"
 
   tweetDetails: (channel, who, message, url) =>
-    {path} = url
-    console.log "Tweet link: #{path}"
-    if match = path.match tweet_url
+    {pathname} = url
+    console.log "Tweet link: #{pathname}"
+    if match = pathname.match tweet_url
       [_, user, tweet_id] = match
       @conn().getStatus tweet_id, (err, data) =>
         if err
