@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env nodejs
 
 // Force working folder to be this folder.
 process.chdir(__dirname);
