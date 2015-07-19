@@ -17,7 +17,7 @@ bot = new irc.Client config.server, config.nick,
   userName: config.username
   realName: config.realname
   debug:    true
-
+bot.conn.setKeepAlive(true, 60000)
 bot.commandList = {}
 
 # Optional error handler
